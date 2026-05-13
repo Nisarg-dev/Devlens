@@ -60,7 +60,7 @@ export default function Home() {
       </h1>
       
       <p className="text-lg text-gray-400 mb-12 max-w-xl mx-auto leading-relaxed">
-        Get an instant AI review of your public repositories. We score your projects, find skill gaps, and tell you if you're ready for that next role.
+        Get an instant AI review of your public repositories. We score your projects, find skill gaps, and tell you if you&apos;re ready for that next role.
       </p>
 
       {!session ? (

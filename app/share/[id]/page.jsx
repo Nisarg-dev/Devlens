@@ -90,7 +90,7 @@ export default function SharePage({ params }) {
         <div className="border-t border-gray-800 pt-12 pb-8 text-center">
           <h3 className="text-2xl font-bold text-white mb-4">Curious about your own GitHub?</h3>
           <p className="text-gray-400 mb-8 max-w-lg mx-auto">
-            Get an instant AI review of your public repositories, find skill gaps, and see if you're ready for interviews.
+            Get an instant AI review of your public repositories, find skill gaps, and see if you&apos;re ready for interviews.
           </p>
           <Link href="/" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white text-black font-semibold hover:bg-gray-100 transition-all transform hover:scale-[1.02]">
             Analyze your own GitHub →

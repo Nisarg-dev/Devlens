@@ -4,6 +4,10 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
+
 export const metadata = {
   title: "DevLens — GitHub Portfolio Analyzer",
   description:
@@ -15,13 +19,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body style={{ fontFamily: "'Inter', sans-serif" }} className="bg-[#050505] text-gray-200 min-h-screen flex flex-col">
+      <body className={`${inter.className} bg-[#050505] text-gray-200 min-h-screen flex flex-col`}>
         <Providers>
           {/* Simple Navbar */}
           <nav className="border-b border-gray-800 bg-black/50 backdrop-blur-md sticky top-0 z-50">
