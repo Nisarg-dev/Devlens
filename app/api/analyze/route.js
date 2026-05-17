@@ -6,6 +6,7 @@ import { analyzePortfolio } from '@/lib/gemini';
 import { connectDB } from '@/lib/mongodb';
 import Analysis from '@/models/Analysis';
 import { generateShareId } from '@/lib/utils';
+import { checkAndIncrementLimit } from '@/lib/rateLimit';
 
 export async function POST(req) {
   const session = await getServerSession(authOptions);
@@ -23,15 +24,10 @@ export async function POST(req) {
   try {
     await connectDB();
 
-    // 2. Anti-Spam / Rate Limiting (Check if user has analyzed anything in the last 5 minutes)
-    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-    const recentAnalysesCount = await Analysis.countDocuments({
-      userId: session.user.email,
-      createdAt: { $gte: fiveMinutesAgo }
-    });
-
-    if (recentAnalysesCount >= 3) {
-      return NextResponse.json({ error: 'Rate limit exceeded. Please wait a few minutes before analyzing again.' }, { status: 429 });
+    // 2. Daily Rate Limiting (Check centralized limit)
+    const limit = await checkAndIncrementLimit(session.user.email, 'analyzeCount');
+    if (!limit.allowed) {
+      return NextResponse.json({ error: `Daily analysis limit reached (${limit.limit}/day). Try again tomorrow.` }, { status: 429 });
     }
 
     // 3. Fetch GitHub repos

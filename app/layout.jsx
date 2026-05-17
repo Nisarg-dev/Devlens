@@ -29,6 +29,10 @@ export default async function RootLayout({ children }) {
               </Link>
               {session && (
                 <div className="flex items-center gap-6">
+                  <Link href="/recruiter" className="text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Recruiter Mode
+                  </Link>
                   <Link href="/dashboard" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
                     Dashboard
                   </Link>

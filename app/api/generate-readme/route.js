@@ -2,9 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
 import { generateReadme } from '@/lib/gemini';
-
-// Simple in-memory map to prevent extreme localized abuse if multiple users share the same session/IP
-const recentReadmeGenerations = new Map();
+import { checkAndIncrementLimit } from '@/lib/rateLimit';
 
 export async function POST(req) {
   const session = await getServerSession(authOptions);
@@ -13,14 +11,12 @@ export async function POST(req) {
   }
 
   const userId = session.user.email;
-  const now = Date.now();
-  const lastGeneration = recentReadmeGenerations.get(userId) || 0;
   
-  // Require waiting 10 seconds between README generations to throttle AI spam
-  if (now - lastGeneration < 10000) {
-    return NextResponse.json({ error: 'Too many requests. Please wait before generating another README.' }, { status: 429 });
+  // Daily Rate Limiting
+  const limit = await checkAndIncrementLimit(userId, 'readmeCount');
+  if (!limit.allowed) {
+    return NextResponse.json({ error: `Daily README generation limit reached (${limit.limit}/day). Try again tomorrow.` }, { status: 429 });
   }
-  recentReadmeGenerations.set(userId, now);
 
   const { repoName, description, language } = await req.json();
 
