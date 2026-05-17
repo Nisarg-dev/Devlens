@@ -9,6 +9,7 @@ DevLens is a full-stack Next.js application designed to act as an AI-powered sen
 
 ## ✨ Key Features
 - **AI-Powered Code Review:** Evaluates public repositories to assess documentation, structure, and code quality.
+- **Recruiter Mode:** Generate AI-assisted executive summaries of candidate GitHub profiles mapped directly against your specific job descriptions to extract verified engineering signals.
 - **Role Readiness Scoring:** Provides percentage-based scores indicating readiness for Full-Stack, Frontend, or Backend roles.
 - **Skill Gap Analysis:** Identifies visible skills and suggests technologies you should learn next.
 - **Secure Shareable Links:** Generates cryptographically secure URLs so you can safely share your portfolio review with recruiters or friends.
@@ -25,13 +26,14 @@ DevLens is a full-stack Next.js application designed to act as an AI-powered sen
 This project solves several non-trivial engineering challenges:
 1. **Concurrent Data Orchestration:** Instead of querying the GitHub API sequentially for repository READMEs (which would cause massive waterfall delays), DevLens utilizes `Promise.all()` to fire concurrent API requests, significantly reducing load times.
 2. **Deterministic LLM Output:** Getting AI to return usable JSON is difficult. DevLens utilizes strict prompt engineering, temperature control (`0.3`), and custom regex sanitizers to force the LLM to output a strict JSON schema that maps cleanly to React components without crashing.
-3. **Secure IDOR Prevention:** Rather than exposing internal database primary keys (`_id`), the application generates secondary cryptographically random IDs (`shareId` via `nanoid`) for public routing, preventing Insecure Direct Object Reference vulnerabilities.
+3. **Multi-Stage Data Extraction & Token Optimization:** The Recruiter Mode utilizes smart metadata sampling to stay within Groq API free-tier token limits while extracting deterministic technical signals and preventing LLM hallucination.
+4. **Secure IDOR Prevention:** Rather than exposing internal database primary keys (`_id`), the application generates secondary cryptographically random IDs (`shareId` via `nanoid`) for public routing, preventing Insecure Direct Object Reference vulnerabilities.
 
 ## 💻 Local Installation
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/your-username/devlens.git
+git clone https://github.com/Nisarg-dev/Devlens.git
 cd devlens
 ```
 
