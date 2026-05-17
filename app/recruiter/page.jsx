@@ -79,7 +79,7 @@ export default function RecruiterPage() {
             Technical Screening
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Recruiter Mode</h1>
-          <p className="text-gray-400 text-sm">Match a candidate's GitHub profile against your job description to extract verified engineering signals.</p>
+          <p className="text-gray-400 text-sm">Match a candidate&apos;s GitHub profile against your job description to extract verified engineering signals.</p>
         </div>
 
         <form onSubmit={handleScan} className="space-y-6 bg-gray-900/60 p-6 rounded-2xl border border-gray-800">
